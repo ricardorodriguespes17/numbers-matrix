@@ -23,7 +23,7 @@
 // tempo de espera entre as piscadas do led vermelho
 #define INTERVAL_DURATION_RED_LED 5000
 
-void define_red_components();
+void define_all_components();
 void make_number();
 void turn_off_red_led();
 void turn_on_red_led();
@@ -38,6 +38,7 @@ uint16_t i;
 double r = 0.0, b = 0.0, g = 0.0;
 uint offset;
 uint sm;
+
 static volatile uint current_number = 0;
 static volatile uint32_t last_time = 0;
 
@@ -127,7 +128,7 @@ double matrix_draws[10][NUM_PIXELS] = {
 
 // função principal
 int main() {
-  define_red_components();
+  define_all_components();
 
   // coloca a frequência de clock para 128 MHz, facilitando a divisão pelo clock
   ok = set_sys_clock_khz(128000, false);
@@ -145,7 +146,7 @@ int main() {
   turn_on_red_led();
 
   while (true) {
-    make_number();
+    draw_number();
     sleep_ms(100);
   }
 }
@@ -160,7 +161,7 @@ void turn_off_red_led() {
   add_alarm_in_ms(INTERVAL_DURATION_RED_LED, turn_on_red_led, NULL, false);
 }
 
-void make_number() { draw_in_matrix(matrix_draws[current_number]); }
+void draw_number() { draw_in_matrix(matrix_draws[current_number]); }
 
 // rotina da interrupção
 static void gpio_irq_handler(uint gpio, uint32_t events) {
@@ -179,7 +180,7 @@ static void gpio_irq_handler(uint gpio, uint32_t events) {
 }
 
 // define os pinos e os tipos dos componentes utilizados
-void define_red_components() {
+void define_all_components() {
   // inicializar o led vermelho - GPIO13
   gpio_init(RED_LED_PIN);
   gpio_set_dir(RED_LED_PIN, GPIO_OUT);
@@ -210,7 +211,7 @@ void draw_in_matrix(double* draw) {
   for (int16_t i = 0; i < NUM_PIXELS; i++) {
     int index = 24 - i;
     double pixel = draw[index];
-    led_value = matrix_rgb(draw[24 - i], r = 0.0, g = 0.0);
+    led_value = matrix_rgb(0.0, draw[24 - i], 0.0);
     pio_sm_put_blocking(pio, sm, led_value);
   }
 }
