@@ -4,7 +4,7 @@
 
 O vídeo a seguir apresenta uma explicação breve sobre o projeto.
 
-> [Sobre o projeto - Youtube](https://youtu.be/)
+> [Sobre o projeto - Youtube](https://youtu.be/VBniFXasnks?feature=shared)
 
 ## Circuito implementado
 
