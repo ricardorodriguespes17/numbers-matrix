@@ -25,8 +25,8 @@
 
 void define_all_components();
 void make_number();
-void turn_off_red_led();
-void turn_on_red_led();
+int64_t turn_off_red_led();
+int64_t turn_on_red_led();
 static void gpio_irq_handler(uint gpio, uint32_t events);
 uint32_t matrix_rgb(double b, double r, double g);
 void draw_in_matrix(double* draw);
@@ -41,6 +41,7 @@ uint sm;
 
 static volatile uint current_number = 0;
 static volatile uint32_t last_time = 0;
+static volatile alarm_id_t current_alarm = 0;
 
 // vetor para criar imagem na matriz de led - 1
 double matrix_draws[10][NUM_PIXELS] = {
@@ -151,14 +152,20 @@ int main() {
   }
 }
 
-void turn_on_red_led() {
+int64_t turn_on_red_led() {
   gpio_put(RED_LED_PIN, 1);
-  add_alarm_in_ms(INTERVAL_DURATION_RED_LED, turn_off_red_led, NULL, false);
+  current_alarm =
+      add_alarm_in_ms(INTERVAL_DURATION_RED_LED, turn_off_red_led, NULL, false);
+
+  return 0;
 }
 
-void turn_off_red_led() {
+int64_t turn_off_red_led() {
   gpio_put(RED_LED_PIN, 0);
-  add_alarm_in_ms(INTERVAL_DURATION_RED_LED, turn_on_red_led, NULL, false);
+  current_alarm =
+      add_alarm_in_ms(INTERVAL_DURATION_RED_LED, turn_on_red_led, NULL, false);
+
+  return 0;
 }
 
 void draw_number() { draw_in_matrix(matrix_draws[current_number]); }
