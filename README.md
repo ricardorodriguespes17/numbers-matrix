@@ -14,3 +14,10 @@ Para o desenvolvimento deste projeto, os seguintes componentes foram utilizados:
 - 2 Botões de interrupção
 - 1 Raspberry Pi Pico W;
 - 1 kit de desenvolvimento BitDogLab (para teste em hardware físico).
+
+## Funcionalidades do projeto
+
+- O LED vermelho do LED RGB pisca continuamente 5 vezes por segundo.
+- O botão A deve incrementa o número exibido na matriz de LEDs cada vez que for pressionado.
+- O botão B deve decrementa o número exibido na matriz de LEDs cada vez que for pressionado.
+- Os LEDs WS2812 apresentam cada número de 0 a 9.
